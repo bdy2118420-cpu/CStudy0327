@@ -1,6 +1,9 @@
 #pragma once
-#include <vector>
 
+#include <vector>
+#include <Windows.h>
+
+class AActor;
 class UWorld;
 
 
@@ -10,8 +13,9 @@ protected:
 	UEngine();
 
 	static UEngine* Instance;
-public:
 
+public:
+	~UEngine();
 
 	static UEngine* GetInstance()
 	{
@@ -22,7 +26,6 @@ public:
 
 		return Instance;
 	}
-	~UEngine();
 
 	void Init();
 	void Term();
@@ -36,17 +39,27 @@ public:
 
 	static int KeyCode;
 
+	//Renderer
+	HANDLE ScreenBufferHandle[2];
+	int ActiveScreenBufferIndex = 0;
+
+	void InitBuffer();
+	void Clear();
+	void Render(int InX, int InY, char InMesh);
+	void Flip();
+	void TermBuffer();
+
 protected:
-	void input();
+	void Input();
 	void Tick();
 	void Render();
 
-	int Num;
 
 	class UWorld* World;
 
 	int bIsRunning : 1;
+
 };
 
-#define GEngine			UEngine::GetInstance()
 
+#define GEngine			UEngine::GetInstance()

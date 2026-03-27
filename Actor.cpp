@@ -1,30 +1,37 @@
 #include "Actor.h"
-#include <Windows.h>
+#include "Engine.h"
 #include <iostream>
+#include <Windows.h>
 
 AActor::AActor(int InX, int InY, char InMesh) : X(InX), Y(InY), Mesh(InMesh)
 {
- 
 }
+
 AActor::~AActor()
 {
+}
+
+void AActor::BeginPlay()
+{
 
 }
+
+void AActor::Tick()
+{
+
+}
+
 void AActor::Render()
 {
-    COORD Rendering;
-    Rendering.X = X;
-    Rendering.Y = Y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Rendering);
+  
 
-    std::cout << Mesh;
-
+    GEngine->Render(X, Y, Mesh);
 }
 
-void AActor::SetLocationActor(int InX, int InY)
+void AActor::SetActorLocation(int NewX, int NewY)
 {
-	X = InX;
-	Y = InY;
+    X = NewX;
+    Y = NewY;
 }
 
 

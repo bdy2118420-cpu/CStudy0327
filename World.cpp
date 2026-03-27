@@ -1,11 +1,15 @@
 #include "World.h"
+#include "Engine.h"
+
+#include <fstream>
+#include <algorithm>
+
 #include "Actor.h"
 #include "Player.h"
 #include "Monster.h"
 #include "Goal.h"
 #include "Wall.h"
 #include "Floor.h"
-#include <fstream>
 
 UWorld::UWorld()
 {
@@ -17,6 +21,7 @@ UWorld::~UWorld()
 	{
 		delete Actor;
 	}
+
 	Actors.clear();
 }
 
@@ -33,40 +38,73 @@ void UWorld::Load(std::string MapName)
 		{
 			if (Line[X] == '*')
 			{
-				SpawnActor<AWall>()->SetLocationActor(X, Y);
+				SpawnActor<AWall>()->SetActorLocation(X, Y);
+				SpawnActor<AFloor>()->SetActorLocation(X, Y);
 			}
 			else if (Line[X] == ' ')
 			{
-				SpawnActor<AFloor>()->SetLocationActor(X, Y);
+				SpawnActor<AFloor>()->SetActorLocation(X, Y);
 			}
 			else if (Line[X] == 'P')
 			{
-				SpawnActor<APlayer>()->SetLocationActor(X, Y);
+				SpawnActor<APlayer>()->SetActorLocation(X, Y);
+				SpawnActor<AFloor>()->SetActorLocation(X, Y);
 			}
 			else if (Line[X] == 'M')
 			{
-				SpawnActor<AMonster>()->SetLocationActor(X, Y);
+				SpawnActor<AMonster>()->SetActorLocation(X, Y);
+				SpawnActor<AFloor>()->SetActorLocation(X, Y);
 			}
 			else if (Line[X] == 'G')
 			{
-				SpawnActor<AGoal>()->SetLocationActor(X, Y);
+				SpawnActor<AGoal>()->SetActorLocation(X, Y);
+				SpawnActor<AFloor>()->SetActorLocation(X, Y);
 			}
 		}
 		Y++;
+	}
+
+	//Sort();
+	std::sort(Actors.begin(), Actors.end(),
+		[](AActor* First, AActor* Second) -> int {
+			return (First->GetZOrder() < Second->GetZOrder() ? 1 : 0);
+		}
+	);
+}
+
+void UWorld::Sort()
+{
+	for (int FirstIndex = 0; FirstIndex < Actors.size(); ++FirstIndex)
+	{
+		for (int SecondIndex = 0; SecondIndex < Actors.size(); ++SecondIndex)
+		{
+			if (Actors[FirstIndex]->GetZOrder() < Actors[SecondIndex]->GetZOrder())
+			{
+				auto Temp = Actors[FirstIndex];
+				Actors[FirstIndex] = Actors[SecondIndex];
+				Actors[SecondIndex] = Temp;
+			}
+		}
 	}
 }
 
 void UWorld::Tick()
 {
+	for (auto Actor : Actors)
+	{
+		Actor->Tick();
+	}
 }
 
 void UWorld::Render()
 {
+	GEngine->Clear();
+
 	for (auto Actor : Actors)
 	{
-		if (Actor != nullptr) // 안전 장치 추가
-		{
-			Actor->Render();
-		}
+		Actor->Render();
 	}
+
+	GEngine->Flip();
 }
+
