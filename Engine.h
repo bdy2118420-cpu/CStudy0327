@@ -6,8 +6,22 @@ class UWorld;
 
 class UEngine
 {
-public:
+protected:
 	UEngine();
+
+	static UEngine* Instance;
+public:
+
+
+	static UEngine* GetInstance()
+	{
+		if (Instance == nullptr)
+		{
+			Instance = new UEngine();
+		}
+
+		return Instance;
+	}
 	~UEngine();
 
 	void Init();
@@ -29,4 +43,6 @@ protected:
 
 	int bIsRunning : 1;
 };
+
+#define GEngine			UEngine::GetInstance()
 

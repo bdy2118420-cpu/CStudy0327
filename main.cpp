@@ -5,11 +5,11 @@ using namespace std;
 
 int main()
 {
-	UEngine* Engine = new UEngine;
+	GEngine->GetInstance();
 
-	Engine->GetWorld()->Load("Text.txt");
+	GEngine->GetWorld()->Load("Text.txt");
 
-	Engine->Run();
+	GEngine->Run();
 
-	delete Engine;
+	return 0;
 }
