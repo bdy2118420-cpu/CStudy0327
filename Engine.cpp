@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "World.h"
+#include <conio.h>
 
 UEngine* UEngine::Instance = nullptr;
 UEngine::UEngine()
@@ -37,6 +38,7 @@ void UEngine::Run()
 
 void UEngine::input()
 {
+	int KeyCode = _getch();
 }
 
 void UEngine::Tick()

@@ -64,6 +64,9 @@ void UWorld::Render()
 {
 	for (auto Actor : Actors)
 	{
-		Actor->Render();
+		if (Actor != nullptr) // 안전 장치 추가
+		{
+			Actor->Render();
+		}
 	}
 }

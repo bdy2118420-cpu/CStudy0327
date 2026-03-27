@@ -4,6 +4,7 @@
 
 AActor::AActor(int InX, int InY, char InMesh) : X(InX), Y(InY), Mesh(InMesh)
 {
+ 
 }
 AActor::~AActor()
 {
@@ -25,3 +26,5 @@ void AActor::SetLocationActor(int InX, int InY)
 	X = InX;
 	Y = InY;
 }
+
+

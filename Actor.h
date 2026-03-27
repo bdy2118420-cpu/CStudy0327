@@ -9,6 +9,8 @@ public:
 
 	void SetLocationActor(int InX, int InY);
 
+	
+
 protected:
 	int X;
 	int Y;

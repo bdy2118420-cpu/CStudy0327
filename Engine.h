@@ -34,10 +34,14 @@ public:
 		return World;
 	}
 
+	static int KeyCode;
+
 protected:
 	void input();
 	void Tick();
 	void Render();
+
+	int Num;
 
 	class UWorld* World;
 

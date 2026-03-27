@@ -33,7 +33,6 @@ public:
 
 
 protected:
-
 	std::vector<class AActor*> Actors;
 };
 
