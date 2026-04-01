@@ -5,6 +5,10 @@ AMonster::AMonster(int InX, int InY, char InMesh)
 	Y = InY;
 	Mesh = InMesh;
 	ZOrder = 50;
+
+	R = 255;
+	G = 0;
+	B = 255;
 }
 AMonster::~AMonster()
 {

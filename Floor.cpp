@@ -6,6 +6,9 @@ AFloor::AFloor(int InX, int InY, char InMesh)
 	Y = InY;
 	Mesh = InMesh;
 	ZOrder = 0;
+	R = 0;
+	G = 255;
+	B = 255;
 }
 
 AFloor::~AFloor()
