@@ -34,7 +34,7 @@ void APlayer::BeginPlay()
 	__super::BeginPlay();
 
 	OnActorBeginOverlap = [&](AActor* Other) -> void {
-		SDL_Log("��ħ ");
+		SDL_Log("Clear");
 		};
 
 

@@ -107,7 +107,6 @@ void UEngine::Render(int InX, int InY, int R, int G, int B)
 {
 	int TileSize = 30;
 	SDL_SetRenderDrawColor(MyRenderer, R, G, B, 255);
-	//SDL_RenderDrawPoint(MyRender, InX, InY);
 	SDL_Rect MyRect = { InX * TileSize, InY * TileSize, TileSize, TileSize };
 	SDL_RenderFillRect(MyRenderer, &MyRect);
 }
