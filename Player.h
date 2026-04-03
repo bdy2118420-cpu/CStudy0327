@@ -1,11 +1,11 @@
 #pragma once
 #include "Character.h"
 
-#include <xkeycheck.h>
 
 class USpritePlayerComponent;
 class UCollisionComponent;
-class Actor;
+class AActor;
+
 class APlayer : public ACharacter
 {
 public:
@@ -16,17 +16,11 @@ public:
 
 	virtual void Tick() override;
 
-	void ProcessBeginOverlap(class AActor* OtherActor);
+	virtual void ReceiveHit(AActor* Other) override;
 
-	virtual void ReceiveHit(class AActor* Other) override;
+	void ProcessBeginOverlap(AActor* OtherActor);
 
 	USpritePlayerComponent* SpriteAnimationComponent;
 
 	UCollisionComponent* CollisionComponent;
-
-	
-
-protected:
-
-
 };

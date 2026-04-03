@@ -28,11 +28,13 @@ UWorld::~UWorld()
 	Actors.clear();
 }
 
+void UWorld::SetGameMode(AGameMode* NewGameMode)
+{
+	Actors.push_back(NewGameMode);
+}
+
 void UWorld::Load(std::string MapName)
 {
-	Actors.push_back(new AGameMode());
-
-
 	std::ifstream MapStream(MapName);
 
 	int Y = 0;
@@ -124,7 +126,18 @@ void UWorld::Load(std::string MapName)
 
 void UWorld::Sort()
 {
-
+	//for (int FirstIndex = 0; FirstIndex < Actors.size(); ++FirstIndex)
+	//{
+	//	for (int SecondIndex = 0; SecondIndex < Actors.size(); ++SecondIndex)
+	//	{
+	//		if (Actors[FirstIndex]->GetZOrder() < Actors[SecondIndex]->GetZOrder())
+	//		{
+	//			auto Temp = Actors[FirstIndex];
+	//			Actors[FirstIndex] = Actors[SecondIndex];
+	//			Actors[SecondIndex] = Temp;
+	//		}
+	//	}
+	//}
 }
 
 void UWorld::BeginPlay()
@@ -147,8 +160,10 @@ void UWorld::Render()
 {
 	GEngine->Clear();
 
+	//��� �����߿��� Render������ ������Ʈ�� ������ ���� �ϼ���.
 	for (auto Actor : Actors)
 	{
+		//���� ������Ʈ�߿� SpriteRenderComponent�� �ֳ� ����°���?
 		for (auto Component : Actor->Components)
 		{
 			IRenderableComponent* RenderComponent = dynamic_cast<IRenderableComponent*>(Component);

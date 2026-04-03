@@ -1,25 +1,25 @@
 #include "Character.h"
-#include "Monster.h"
-#include "GameplayStatics.h"
 #include "Engine.h"
-#include "ResourceManager.h"
-#include "SpriteComponent.h"
 #include "World.h"
 #include "CollisionComponent.h"
+
 ACharacter::ACharacter()
 {
 }
+
 ACharacter::~ACharacter()
 {
 }
+
 bool ACharacter::PredictMove(int InX, int InY)
 {
-	for (auto Other : GEngine->GetWorld()->GetActors())
+	for (auto Other : GetWorld()->GetActors())
 	{
-		if (Other == this)
+		if (Other == this) 
 		{
 			continue;
 		}
+
 		for (auto OtherComponent : Other->Components)
 		{
 			UCollisionComponent* OtherCollision = dynamic_cast<UCollisionComponent*>(OtherComponent);
@@ -30,11 +30,7 @@ bool ACharacter::PredictMove(int InX, int InY)
 					ReceiveHit(Other);
 					return false;
 				}
-				//*if (OtherCollision->bIsGenerateOverlap && InX == Other->GetX() && InY == Other->GetY())
-				//{
-				//	OnActorBeginOverlap(Other);
-				//	return false;
-				//}*/
+
 			}
 		}
 	}

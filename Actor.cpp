@@ -43,3 +43,9 @@ void AActor::SetActorLocation(int NewX, int NewY)
 void AActor::ReceiveHit(AActor* Other)
 {
 }
+
+
+UWorld* AActor::GetWorld()
+{
+	return World;
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.h"
+
 class AGameMode : public AActor
 {
 public:
@@ -8,4 +9,3 @@ public:
 
 	virtual void Tick() override;
 };
-

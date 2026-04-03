@@ -5,11 +5,18 @@
 #include "ResourceManager.h"
 #include "USpritePlayerComponent.h"
 #include "CollisionComponent.h"
+#include "Goal.h"
+#include "AMYGM.h"
+#include "Monster.h"
 
 APlayer::APlayer(int InX, int InY, char InMesh)
 {
 	X = InX;
 	Y = InY;
+
+	//Resource TempResource = GEngine->GetResourceManager()->LoadTexture("Data/player.bmp", true, 255, 0, 255);
+	//Image = TempResource.Image;
+	//Texture = TempResource.Texture;
 
 	SpriteAnimationComponent = CreateDefaultSubobject<USpritePlayerComponent>("Sprite");
 
@@ -23,6 +30,8 @@ APlayer::APlayer(int InX, int InY, char InMesh)
 	CollisionComponent->bIsGenerateHit = true;
 	CollisionComponent->bIsGenerateOverlap = true;
 
+	Name = "Player";
+
 }
 
 APlayer::~APlayer()
@@ -34,9 +43,28 @@ void APlayer::BeginPlay()
 	__super::BeginPlay();
 
 	OnActorBeginOverlap = [&](AActor* Other) -> void {
-		SDL_Log("Clear");
+		AGoal* Goal = dynamic_cast<AGoal*>(Other);
+		if (Goal)
+		{
+			AMYGM* GM = dynamic_cast<AMYGM*>(UGameplayStatics::GetGameMode());
+			if (GM)
+			{
+				GM->GameComplete();
+			}
+		}
+
+		AMonster* Monster = dynamic_cast<AMonster*>(Other);
+		if (Monster)
+		{
+			AMYGM* GM = dynamic_cast<AMYGM*>(UGameplayStatics::GetGameMode());
+			if (GM)
+			{
+				GM->GameOver();
+			}
+		}
 		};
 
+	//OnActorBeginOverlap = std::bind(&APlayer::ProcessBeginOverlap, this, std::placeholders::_1);
 
 }
 
