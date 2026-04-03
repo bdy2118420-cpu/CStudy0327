@@ -399,9 +399,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# 모든 .lib, .dll을 무시하지만
-*.lib
-*.dll
+
+
 
 # SDL2 폴더 안에 있는 파일들은 무시하지 마라 (예외 처리)
 !SDL2/lib/*.lib
