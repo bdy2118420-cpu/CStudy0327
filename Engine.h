@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <Windows.h>
-
 #include "SDL.h"
 
 #pragma comment(lib, "SDL2")
@@ -10,10 +9,8 @@
 
 class AActor;
 class UWorld;
+class UResourceManager;
 
-struct SDL_Window;
-
-struct SDL_Renderer;
 
 class UEngine
 {
@@ -39,13 +36,14 @@ public:
 	void Term();
 
 	void Run();
+
 	void Stop();
+
 
 	inline UWorld* GetWorld()
 	{
 		return World;
 	}
-
 
 	//Renderer
 	HANDLE ScreenBufferHandle[2];
@@ -55,6 +53,8 @@ public:
 	void Clear();
 	void Render(int InX, int InY, char InMesh);
 	void Render(int InX, int InY, int R, int G, int B);
+	void Render(int InX, int InY, SDL_Texture* InTexture);
+
 	void Flip();
 	void TermBuffer();
 
@@ -63,22 +63,43 @@ public:
 		return MyEvent;
 	}
 
+	inline float GetDeltaSeconds() const
+	{
+		return DeltaSeconds;
+	}
+
+	inline SDL_Renderer* GetRenderer() const
+	{
+		return MyRenderer;
+	}
+
+	inline SDL_Window* GetWindow() const
+	{
+		return MyWindow;
+	}
+
+	inline UResourceManager* GetResourceManager() const
+	{
+		return ResourceManager;
+	}
+
 protected:
 	void Input();
 	void Tick();
 	void Render();
 
 
-	SDL_Window* MyWindow;
-
-	SDL_Renderer* MyRender;
-
-	SDL_Event MyEvent;
-
 	class UWorld* World;
 
 	int bIsRunning : 1;
 
+	SDL_Window* MyWindow;
+	SDL_Renderer* MyRenderer;
+	SDL_Event MyEvent;
+
+	float DeltaSeconds;
+
+	UResourceManager* ResourceManager;
 };
 
 

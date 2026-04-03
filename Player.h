@@ -1,7 +1,12 @@
 #pragma once
-#include "Actor.h"
+#include "Character.h"
 
-class APlayer : public AActor
+#include <xkeycheck.h>
+
+class USpritePlayerComponent;
+class UCollisionComponent;
+class Actor;
+class APlayer : public ACharacter
 {
 public:
 	APlayer(int InX = 1, int InY = 1, char InMesh = 'P');
@@ -11,5 +16,17 @@ public:
 
 	virtual void Tick() override;
 
-	virtual void Render() override;
+	void ProcessBeginOverlap(class AActor* OtherActor);
+
+	virtual void ReceiveHit(class AActor* Other) override;
+
+	USpritePlayerComponent* SpriteAnimationComponent;
+
+	UCollisionComponent* CollisionComponent;
+
+	
+
+protected:
+
+
 };

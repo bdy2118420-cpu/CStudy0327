@@ -1,4 +1,4 @@
-#include "World.h"
+﻿#include "World.h"
 #include "Engine.h"
 
 #include <fstream>
@@ -10,6 +10,9 @@
 #include "Goal.h"
 #include "Wall.h"
 #include "Floor.h"
+#include "RenderableComponent.h"
+#include "SpriteComponent.h"
+#include "GameMode.h"
 
 UWorld::UWorld()
 {
@@ -27,9 +30,14 @@ UWorld::~UWorld()
 
 void UWorld::Load(std::string MapName)
 {
+	Actors.push_back(new AGameMode());
+
+
 	std::ifstream MapStream(MapName);
 
 	int Y = 0;
+	int MaxX = -1;
+	int MaxY = -1;
 	while (!MapStream.eof())
 	{
 		std::string Line;
@@ -60,31 +68,70 @@ void UWorld::Load(std::string MapName)
 				SpawnActor<AGoal>()->SetActorLocation(X, Y);
 				SpawnActor<AFloor>()->SetActorLocation(X, Y);
 			}
+
+			if (MaxX < X + 1)
+			{
+				MaxX = X + 1;
+			}
+
 		}
 		Y++;
 	}
 
+	MaxY = Y;
+
+	SDL_SetWindowSize(GEngine->GetWindow(), (MaxX) * 30, MaxY * 30);
+
 	//Sort();
 	std::sort(Actors.begin(), Actors.end(),
-		[](AActor* First, AActor* Second) -> int {
-			return (First->GetZOrder() < Second->GetZOrder() ? 1 : 0);
+		[&](AActor* First, AActor* Second) -> int {
+
+			USpriteComponent* FirstRenderComponent = nullptr;
+			for (auto Component : First->Components)
+			{
+				FirstRenderComponent = dynamic_cast<USpriteComponent*>(Component);
+				if (FirstRenderComponent)
+				{
+					break;
+				}
+			}
+
+			if (!FirstRenderComponent)
+			{
+				return 0;
+			}
+
+			USpriteComponent* SecondRenderComponent = nullptr;
+			for (auto Component : Second->Components)
+			{
+				SecondRenderComponent = dynamic_cast<USpriteComponent*>(Component);
+				if (SecondRenderComponent)
+				{
+					break;
+				}
+			}
+
+			if (!SecondRenderComponent)
+			{
+				return 0;
+			}
+
+			return (FirstRenderComponent->ZOrder < SecondRenderComponent->ZOrder ? 1 : 0);
+
 		}
 	);
 }
 
 void UWorld::Sort()
 {
-	for (int FirstIndex = 0; FirstIndex < Actors.size(); ++FirstIndex)
+
+}
+
+void UWorld::BeginPlay()
+{
+	for (auto Actor : Actors)
 	{
-		for (int SecondIndex = 0; SecondIndex < Actors.size(); ++SecondIndex)
-		{
-			if (Actors[FirstIndex]->GetZOrder() < Actors[SecondIndex]->GetZOrder())
-			{
-				auto Temp = Actors[FirstIndex];
-				Actors[FirstIndex] = Actors[SecondIndex];
-				Actors[SecondIndex] = Temp;
-			}
-		}
+		Actor->BeginPlay();
 	}
 }
 
@@ -102,9 +149,15 @@ void UWorld::Render()
 
 	for (auto Actor : Actors)
 	{
-		Actor->Render();
+		for (auto Component : Actor->Components)
+		{
+			IRenderableComponent* RenderComponent = dynamic_cast<IRenderableComponent*>(Component);
+			if (RenderComponent)
+			{
+				RenderComponent->Render();
+			}
+		}
 	}
 
 	GEngine->Flip();
 }
-

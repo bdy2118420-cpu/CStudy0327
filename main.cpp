@@ -1,14 +1,17 @@
 #include <iostream>
 #include "Engine.h"
 #include "World.h"
-#include <random>
+
+#include "Actor.h"
+#include "Floor.h"
+#include "SpriteComponent.h"
+#include "RenderableComponent.h"
 
 
-using namespace std;
-
+#define FActorBedinOverlapSignature 
 int SDL_main(int argc, char* argv[])
 {
-	//난수 발생 알고리즘
+
 	GEngine->GetWorld()->Load("Text.txt");
 
 	GEngine->Run();
@@ -16,11 +19,5 @@ int SDL_main(int argc, char* argv[])
 	delete GEngine;
 
 	return 0;
-
-
-
-	return 0;
 }
-
-
 
