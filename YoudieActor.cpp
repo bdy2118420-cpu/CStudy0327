@@ -3,8 +3,8 @@
 AYoudieActor::AYoudieActor()
 {
 	TextRenderComponet->SetText("Yot Died");
-	X = 200;
-	Y = 100;
+	X = 250;
+	Y = 250;
 	TextRenderComponet->ZOrder = 200;
 	TextRenderComponet->bIsVisible = false;
 }

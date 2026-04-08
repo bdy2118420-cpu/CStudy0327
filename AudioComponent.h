@@ -9,8 +9,6 @@ class UAudioComponent : public UComponent
 public:
 	UAudioComponent();
 	virtual ~UAudioComponent();
-
-	//pure virtual function
 	virtual void BeginPlay() override;
 
 	virtual void Tick() override;

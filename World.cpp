@@ -86,12 +86,12 @@ void UWorld::Load(std::string MapName)
 
 	SDL_SetWindowSize(GEngine->GetWindow(), (MaxX) * 30, MaxY * 30);
 
-	//Map�� �߰� �ؾ� �Ǵµ� �۾��Ұ� ���Ƽ� �н��Ѵ�.
+
 	SpawnActor<AYoudieActor>();
 	SpawnActor<ABGActor>();
 
 
-	//Sort();
+	
 	std::sort(Actors.begin(), Actors.end(),
 		[&](AActor* First, AActor* Second) -> int {
 
@@ -133,18 +133,7 @@ void UWorld::Load(std::string MapName)
 
 void UWorld::Sort()
 {
-	//for (int FirstIndex = 0; FirstIndex < Actors.size(); ++FirstIndex)
-	//{
-	//	for (int SecondIndex = 0; SecondIndex < Actors.size(); ++SecondIndex)
-	//	{
-	//		if (Actors[FirstIndex]->GetZOrder() < Actors[SecondIndex]->GetZOrder())
-	//		{
-	//			auto Temp = Actors[FirstIndex];
-	//			Actors[FirstIndex] = Actors[SecondIndex];
-	//			Actors[SecondIndex] = Temp;
-	//		}
-	//	}
-	//}
+
 }
 
 void UWorld::BeginPlay()
@@ -167,10 +156,9 @@ void UWorld::Render()
 {
 	GEngine->Clear();
 
-	//��� �����߿��� Render������ ������Ʈ�� ������ ���� �ϼ���.
+
 	for (auto Actor : Actors)
 	{
-		//���� ������Ʈ�߿� SpriteRenderComponent�� �ֳ� ����°���?
 		for (auto Component : Actor->Components)
 		{
 			IRenderableComponent* RenderComponent = dynamic_cast<IRenderableComponent*>(Component);
