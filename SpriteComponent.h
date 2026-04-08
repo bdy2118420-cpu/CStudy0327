@@ -9,15 +9,13 @@ public:
 	USpriteComponent();
 	~USpriteComponent();
 
-	
 	virtual void BeginPlay() override;
 
 	virtual void Tick() override;
 
-
+	
 	virtual void Render() override;
 
-	int ZOrder = 0;
 
 	SDL_Surface* Image;
 	SDL_Texture* Texture;

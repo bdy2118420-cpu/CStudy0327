@@ -13,6 +13,8 @@
 #include "RenderableComponent.h"
 #include "SpriteComponent.h"
 #include "GameMode.h"
+#include "YoudieActor.h"
+#include "BGActor.h"
 
 UWorld::UWorld()
 {
@@ -84,14 +86,19 @@ void UWorld::Load(std::string MapName)
 
 	SDL_SetWindowSize(GEngine->GetWindow(), (MaxX) * 30, MaxY * 30);
 
+	//Map�� �߰� �ؾ� �Ǵµ� �۾��Ұ� ���Ƽ� �н��Ѵ�.
+	SpawnActor<AYoudieActor>();
+	SpawnActor<ABGActor>();
+
+
 	//Sort();
 	std::sort(Actors.begin(), Actors.end(),
 		[&](AActor* First, AActor* Second) -> int {
 
-			USpriteComponent* FirstRenderComponent = nullptr;
+			IRenderableComponent* FirstRenderComponent = nullptr;
 			for (auto Component : First->Components)
 			{
-				FirstRenderComponent = dynamic_cast<USpriteComponent*>(Component);
+				FirstRenderComponent = dynamic_cast<IRenderableComponent*>(Component);
 				if (FirstRenderComponent)
 				{
 					break;
@@ -103,10 +110,10 @@ void UWorld::Load(std::string MapName)
 				return 0;
 			}
 
-			USpriteComponent* SecondRenderComponent = nullptr;
+			IRenderableComponent* SecondRenderComponent = nullptr;
 			for (auto Component : Second->Components)
 			{
-				SecondRenderComponent = dynamic_cast<USpriteComponent*>(Component);
+				SecondRenderComponent = dynamic_cast<IRenderableComponent*>(Component);
 				if (SecondRenderComponent)
 				{
 					break;
@@ -167,7 +174,7 @@ void UWorld::Render()
 		for (auto Component : Actor->Components)
 		{
 			IRenderableComponent* RenderComponent = dynamic_cast<IRenderableComponent*>(Component);
-			if (RenderComponent)
+			if (RenderComponent && RenderComponent->bIsVisible)
 			{
 				RenderComponent->Render();
 			}

@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>	
 #include <functional>
+#include "TextRenderComponet.h"
+
 
 using FActorBeginOverlapSignature = std::function<void(class AActor* OtherActor)>;
 

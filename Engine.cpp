@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "World.h"
 #include "SDL.h"
+#include "SDL_mixer.h"
 #include "ResourceManager.h"
 
 UEngine* UEngine::Instance = nullptr;
@@ -23,8 +24,14 @@ void UEngine::Init()
 
 	MyWindow = SDL_CreateWindow("Hello", 100, 100, 1024, 768, SDL_WINDOW_SHOWN);
 	MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+	//MyRender = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_SOFTWARE);
+
+	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
 
 	TTF_Init();
+
+	Font = TTF_OpenFont("./asset/MonaS12TextKR.ttf", 32);
+
 
 	ResourceManager = new UResourceManager();
 
@@ -37,6 +44,13 @@ void UEngine::Init()
 
 void UEngine::Term()
 {
+	if (Font)
+	{
+		TTF_CloseFont(Font);
+	}
+
+	Mix_CloseAudio();
+
 	TTF_Quit();
 	SDL_DestroyRenderer(MyRenderer);
 	SDL_DestroyWindow(MyWindow);
@@ -63,7 +77,8 @@ void UEngine::Run()
 		Input();
 		Tick();
 		Render();
-		DeltaSeconds = (float)(SDL_GetTicks64() - LastTime) / 1000.0f;
+		DeltaSeconds = (float)(SDL_GetTicks64() - LastTime) / 1000.0f; // m/s
+		//SDL_Log("%f s", DeltaSeconds );
 	}
 }
 
@@ -89,6 +104,8 @@ void UEngine::InitBuffer()
 
 void UEngine::Clear()
 {
+	//CPU�ϴ°� GPU�� ������ ���°ž�. ���� ���� ����
+	//GPU ���� ���� ���ɾ� ����
 	SDL_SetRenderDrawColor(MyRenderer, 255, 255, 255, 255);
 	SDL_RenderClear(MyRenderer);
 
@@ -110,6 +127,7 @@ void UEngine::Render(int InX, int InY, int R, int G, int B)
 {
 	int TileSize = 30;
 	SDL_SetRenderDrawColor(MyRenderer, R, G, B, 255);
+	//SDL_RenderDrawPoint(MyRender, InX, InY);
 	SDL_Rect MyRect = { InX * TileSize, InY * TileSize, TileSize, TileSize };
 	SDL_RenderFillRect(MyRenderer, &MyRect);
 }
@@ -157,5 +175,7 @@ void UEngine::Tick()
 void UEngine::Render()
 {
 	World->Render();
+
+	//�׷�CPU -> GPU
 	SDL_RenderPresent(MyRenderer);
 }
