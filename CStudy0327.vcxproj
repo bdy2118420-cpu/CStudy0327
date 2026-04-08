@@ -148,6 +148,7 @@ copy $(SolutionDir)SDL2_ttf\lib\x64\SDL2_ttf.dll $(OutputPath)SDL2_ttf.dll</Comm
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="TextRender.cpp" />
     <ClCompile Include="USpritePlayerComponent.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="World.cpp" />
@@ -168,6 +169,7 @@ copy $(SolutionDir)SDL2_ttf\lib\x64\SDL2_ttf.dll $(OutputPath)SDL2_ttf.dll</Comm
     <ClInclude Include="RenderableComponent.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="TextRender.h" />
     <ClInclude Include="USpritePlayerComponent.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="World.h" />

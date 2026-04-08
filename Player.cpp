@@ -116,6 +116,6 @@ void APlayer::ReceiveHit(AActor* Other)
 
 void APlayer::ProcessBeginOverlap(AActor* OtherActor)
 {
-	SDL_Log("��ħ ");
+	SDL_Log("WWW");
 }
 

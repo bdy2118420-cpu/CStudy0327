@@ -24,6 +24,8 @@ void UEngine::Init()
 	MyWindow = SDL_CreateWindow("Hello", 100, 100, 1024, 768, SDL_WINDOW_SHOWN);
 	MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
+	TTF_Init();
+
 	ResourceManager = new UResourceManager();
 
 	bIsRunning = true;
@@ -35,6 +37,7 @@ void UEngine::Init()
 
 void UEngine::Term()
 {
+	TTF_Quit();
 	SDL_DestroyRenderer(MyRenderer);
 	SDL_DestroyWindow(MyWindow);
 	SDL_Quit();
